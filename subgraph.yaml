@@ -1,0 +1,29 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: ErcToken
+    network: ropsten
+    source:
+      address: "0xD80c0e3AEb7CDe17E07Db57531aF9582B3409613"
+      abi: ErcToken
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - OwnershipTransferred
+        - Transfer
+      abis:
+        - name: ErcToken
+          file: ./abis/ErcToken.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: ./src/mapping.ts
